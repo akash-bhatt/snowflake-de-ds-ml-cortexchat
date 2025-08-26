@@ -51,13 +51,13 @@ USE ROLE CC_DMND_FCAST_RL;
 -- Create an API integration with Github
 CREATE OR REPLACE API INTEGRATION GITHUB_INTEGRATION_CC_DMND_FCAST_ML
    api_provider = git_https_api
-   api_allowed_prefixes = ('https://github.com/Snowflake-Labs')
+   api_allowed_prefixes = ('https://github.com/Snowflake-Labs','https://github.com/akash-bhatt')
    enabled = true
    comment='Git integration with Snowflake Demo Github Repository.';
 
 -- Create the integration with the Github demo repository
 CREATE OR REPLACE GIT REPOSITORY GITHUB_REPO_DMND_FCAST_ML
-   ORIGIN = 'https://github.com/Snowflake-Labs/sfguide-build-end-to-end-ml-workflow-in-snowflake' 
+   ORIGIN = 'https://github.com/akash-bhatt/snowflake-de-ds-ml-cortexchat.git' 
    API_INTEGRATION = 'GITHUB_INTEGRATION_CC_DMND_FCAST_ML' 
    COMMENT = 'Github Repository ';
 
@@ -66,8 +66,8 @@ ALTER GIT REPOSITORY GITHUB_REPO_DMND_FCAST_ML FETCH;
 
 -- Copy notebook into snowflake configure runtime settings
 CREATE OR REPLACE NOTEBOOK CC_DMND_FCAST_ML_DB.MLOPS_SCHEMA.TRAIN_DEPLOY_MONITOR_ML
-FROM '@CC_DMND_FCAST_ML_DB.MLOPS_SCHEMA.GITHUB_REPO_DMND_FCAST_ML/branches/main/' 
-MAIN_FILE = 'train_deploy_monitor_ML_in_snowflake.ipynb' QUERY_WAREHOUSE = CC_DMND_FCAST_WH;
+FROM '@CC_DMND_FCAST_ML_DB.MLOPS_SCHEMA.GITHUB_REPO_DMND_FCAST_ML/branches/master/' 
+MAIN_FILE = 'demand_forecasting_ML.ipynb' QUERY_WAREHOUSE = CC_DMND_FCAST_WH;
 
 --alter NOTEBOOK CC_DMND_FCAST_ML_DB.MLOPS_SCHEMA.TRAIN_DEPLOY_MONITOR_ML set EXTERNAL_ACCESS_INTEGRATIONS = ( 'mlops_pypi_access_integration' )
 
